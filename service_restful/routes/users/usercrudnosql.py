@@ -7,21 +7,21 @@ class UserCrud(Crud):
 
     def post(self):
         users = db.db.users
-        name = request.json['name']
+        username = request.json['username']
         email = request.json['email']
 
-        user_id = users.insert({'name': name, 'email': email})
+        user_id = users.insert({'username': username, 'email': email})
         new_user = users.find_one({'_id': user_id})
 
-        output = {'name': new_user['name'], 'email': new_user['email']}
+        output = {'username': new_user['username'], 'email': new_user['email']}
         return jsonify({'result': output})
 
     def get(self):
         users = db.db.users
         output = []
 
-        for q in users.find():
-            output.append({'name': q['name'], 'email': q['email']})
+        for user in users.find():
+            output.append({'username': user['username'], 'email': user['email']})
 
         return jsonify({'result': output})
 
